@@ -1,0 +1,10 @@
+#! /bin/bash
+#### Description: touches a file and changes its permissions
+#### Author: Kyle Hoppner - hessianarcher@gmail.com - Nov 2018
+
+mod="$1"
+fileName="$2"
+
+touch "$fileName"
+chmod "$mod" "$fileName"
+

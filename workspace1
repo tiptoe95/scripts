@@ -1,0 +1,12 @@
+#! /bin/bash
+
+gnome-terminal &
+gnome-terminal -- neofetch &
+google-chrome &
+
+sleep 2
+
+wmctrl -r "Chrome" -t 1
+wmctrl -r "large terminal" -t 1
+wmctrl -r "small terminal" -t 1
+

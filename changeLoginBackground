@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# open up /usr/share/gnome-shell/theme/ubuntu.css
+# search for #lockDialogGroup heading
+# change file path to image

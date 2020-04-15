@@ -1,0 +1,82 @@
+#!/bin/bash
+
+##########
+
+sources=(
+		/etc
+		/opt
+		/usr
+		/srv
+		/home
+		/bin
+)
+
+excluded=(
+		~/.cache
+		~/guest/.cache
+		~/kyle/.cache
+)
+
+destination='/media/kyle/BackupStorage_CaviarGreen/'
+
+params=(
+		-hvusa
+        --delete
+        --delete-excluded
+		#--progress
+        --info=progress2
+)
+
+##########
+
+# empty trash before continuing
+
+
+# check if relevant directories exist
+for dir in "${sources[@]}"; do
+	if ! [[ -d $dir ]]; then
+		echo "One of the source locations doesn't exist"
+		exit 1
+	fi
+done
+
+if ! [[ -d $destination ]]; then
+	echo "Destination directory doesn't exist"
+	echo "Aborting..."
+	exit 1
+fi
+
+#get directory of last backup
+cd $destination
+dirname=$(ls -t | grep 'Ubuntu-*' | head -1)
+if ! [[ -d $dirname ]]; then
+	read -n 1 -s -r -p "No previous backups found... Press any key to continue."
+else
+	echo "Most recent backup found: $dirname"
+fi
+
+# commence backup
+echo -e "The following command will be executed:"
+echo "sudo rsync ${params[@]} ${sources[@]} $destination"
+echo -e "Do you wish to continue?"
+select yn in "Yes" "No"; do
+	case $yn in
+		Yes )
+			sudo rsync ${params[@]} --exclude=${excluded[@]} ${sources[@]} ${destination}/${dirname};
+            wait ${!};
+			echo -e "\nBackup complete!";
+			break;;
+		No )
+			exit;;
+	esac
+done
+
+clear
+
+# rename directory to match current date
+
+curmonth=$(date +'%b%y')
+if $(mv $dirname "Ubuntu-${curmonth}"); then
+	echo -e "Backup directory renamed to: ${destination}Ubuntu-$curmonth"
+fi
+exit

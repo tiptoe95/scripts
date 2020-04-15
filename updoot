@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo '********** Updating registries **********'
+sudo apt update
+echo '********** Upgrading packages  **********'
+sudo apt upgrade -y
+echo '********** Removing unnecessary packages **********'
+sudo apt autoremove -y
