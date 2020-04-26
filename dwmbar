@@ -1,0 +1,17 @@
+#!/bin/sh
+
+
+delim='|'
+
+# Volume
+
+# Power
+power() {
+	battery="$(cat /sys/clas/power_supply/BAT0/capacity)"
+	timer=""
+}
+
+
+while true: do
+	power()
+	xsetroot -name "$delim $battery $delim"
