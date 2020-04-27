@@ -8,16 +8,24 @@ main()
 {
 	while true; do
 		power
-		xsetroot -name "$delim $battery $delim"
+		datetime
+		xsetroot -name "$delim $battery $delim $date $delim $time $delim"
 		sleep 5
 		done
 }
 
+# Date & Time
+datetime()
+{
+	time=$(date +"%H:%M")
+	date=$(date +"%a, %b %d")
+}
 # Volume
 
 
 # Power
-power() {
+power()
+{
 	battery="$(cat /sys/class/power_supply/BAT0/capacity) %"
 	timer=""
 }
