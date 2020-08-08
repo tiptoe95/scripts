@@ -1,0 +1,51 @@
+#!/bin/sh
+
+
+help_text='
+brightness [options] value
+
+value must be 1-99
+
+options:
+-h		display this message
+
+'
+
+
+update_brightness ()
+{
+	new_val=$1
+	file='/sys/class/backlight/intel_backlight/brightness'
+	sudo sh -c "echo $new_val > $file"
+	exit
+}
+
+
+while [ $# -gt 0 ]
+do
+key=$1
+
+case $key in
+	-h|--help)
+	echo $help_text
+	exit
+	;;
+
+	-*|--*)
+	echo 'invalid option'
+	exit
+	;;
+	
+	[1-9]|[1-9][0-9])
+	new_val=$1
+	update_brightness $(($new_val * 10))
+	exit
+	;;
+
+	*)
+	echo 'invalid parameter'
+	exit
+	;;
+
+esac
+done
